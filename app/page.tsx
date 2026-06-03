@@ -1,12 +1,21 @@
 'use client';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Sidebar from "@/components/Sidebar";
 import { ChartNoAxesCombined } from "lucide-react";
 import { mockStocks, type Stock } from "@/database/stockData";
+import { AddStock } from "@/components/AddStock";
 
 export default function Home() {
   const [collapsed, setCollapsed] = useState(false);
   const [stocks] = useState<Stock[]>(mockStocks);
+  const [showAddStock, setShowAddStock] = useState(false);
+
+  useEffect(() => {
+    document.body.style.overflow = showAddStock ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [showAddStock]);
 
   return (
     <div className="flex flex-col flex-1 h-screen w-screen overflow-hidden  items-center justify-center">
@@ -42,18 +51,19 @@ export default function Home() {
           </div>
           </div>
       </header>
-      <main className="flex flex-1 w-full flex-col justify-between items-start">
+      <main className="flex flex-1 w-full h-full flex-col items-start">
         <Sidebar
           collapsed={collapsed}
           onToggle={() => setCollapsed(!collapsed)}
           stocks={stocks}
-          onAddStock={() => {}}
+          onAddStock={() => setShowAddStock(true)}
           onSelectStock={() => {}}
         />
       </main>
       <footer className="flex items-center justify-center w-full h-10 border-t border-dark-green/50">
         <p className="text-[10px] text-dark-green/80">© 2026 StockTracking. All rights reserved to Patcharalak Tulyakul. Mock Number.</p>
       </footer>
+      {showAddStock && <AddStock onClose={() => setShowAddStock(false)} />}
     </div>
   );
 }

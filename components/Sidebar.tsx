@@ -81,7 +81,7 @@ export default function Sidebar({ collapsed, onToggle, stocks = [], onAddStock, 
     >
       {/* Sidebar panel */}
       <div
-        className="flex flex-col h-full border-r border-dark-green/50  overflow-hidden"
+        className="flex flex-col h-full border-r border-dark-green/50 overflow-hidden"
         style={{ width: collapsed ? 0 : 260, transition: "width 0.3s" }}
       >
         {/* Header */}
@@ -133,15 +133,12 @@ export default function Sidebar({ collapsed, onToggle, stocks = [], onAddStock, 
           </span>
         </div>
 
-        
-
          {/* Stock list */}
         <div className="flex-1 overflow-y-auto scrollbar-hide">
           {sorted.map((stock) => (
             <StockRow key={stock.id} stock={stock} onClick={() => onSelectStock(stock)} />
           ))}
         </div>
-        
       </div>
 
       {/* < > Toggle button — always visible, anchored to right edge of wrapper */}
