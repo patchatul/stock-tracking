@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import { useState } from "react";
 import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid} from "recharts";
 import { chartDataByRange, type TimeRange } from "../database/stockData";
@@ -10,7 +10,9 @@ function CustomTooltip({ active, payload, label }: any) {
   return (
     <div className="bg-[#0a1a0c] border border-[rgba(0,88,16,0.5)] rounded-lg px-3 py-2 shadow-xl">
       <p className="text-[#6aaf72] text-xs mb-0.5">{label}</p>
-      <p className="text-white text-sm font-bold">${payload[0].value.toLocaleString()}</p>
+      <p className="text-white text-sm font-bold">
+        ${payload[0].value.toLocaleString()}
+      </p>
     </div>
   );
 }
@@ -29,10 +31,18 @@ export default function MainChart() {
       {/* Title row */}
       <div className="flex items-end justify-between mb-4 shrink-0">
         <div>
-          <p className="text-[#6aaf72] text-xs uppercase tracking-widest mb-1">Portfolio Value</p>
-          <p className="text-white text-3xl font-bold">${last.toLocaleString()}</p>
-          <p className={`text-sm font-semibold mt-0.5 ${isUp ? "text-[#69f0ae]" : "text-[#ff6b6b]"}`}>
-            {isUp ? "▲" : "▼"} {isUp ? "+" : ""}${change.toFixed(0)} ({isUp ? "+" : ""}{pct}%)
+          <p className="text-[#6aaf72] text-xs uppercase tracking-widest mb-1">
+            Portfolio Value
+          </p>
+          <p className="text-white text-3xl font-bold">
+            ${last.toLocaleString()}
+          </p>
+          <p
+            className={`text-sm font-semibold mt-0.5 ${isUp ? "text-light-green" : "text-red"}`}
+          >
+            {isUp ? "▲" : "▼"} {isUp ? "+" : ""}${change.toFixed(0)} (
+            {isUp ? "+" : ""}
+            {pct}%)
           </p>
         </div>
         {/* Time range buttons */}
@@ -43,7 +53,7 @@ export default function MainChart() {
               onClick={() => setRange(r)}
               className={`px-2.5 py-1 rounded text-xs font-medium transition-colors ${
                 range === r
-                  ? "bg-[#005810] text-white"
+                  ? "bg-dark-green text-white"
                   : "text-[#6aaf72] hover:bg-[#0d2610] hover:text-[#a5d6a7]"
               }`}
             >
@@ -56,14 +66,21 @@ export default function MainChart() {
       {/* Chart */}
       <div className="flex-1 min-h-0">
         <ResponsiveContainer width="100%" height="100%">
-          <AreaChart data={data} margin={{ top: 5, right: 5, left: 10, bottom: 0 }}>
+          <AreaChart
+            data={data}
+            margin={{ top: 5, right: 5, left: 10, bottom: 0 }}
+          >
             <defs>
               <linearGradient id="stockGradient" x1="0" y1="0" x2="0" y2="1">
                 <stop offset="5%" stopColor="#005810" stopOpacity={0.6} />
                 <stop offset="95%" stopColor="#005810" stopOpacity={0.02} />
               </linearGradient>
             </defs>
-            <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,88,16,0.15)" vertical={false} />
+            <CartesianGrid
+              strokeDasharray="3 3"
+              stroke="rgba(0,88,16,0.15)"
+              vertical={false}
+            />
             <XAxis
               dataKey="date"
               tick={{ fill: "#6aaf72", fontSize: 10 }}
@@ -86,7 +103,12 @@ export default function MainChart() {
               strokeWidth={2}
               fill="url(#stockGradient)"
               dot={false}
-              activeDot={{ r: 4, fill: "#69f0ae", stroke: "#005810", strokeWidth: 2 }}
+              activeDot={{
+                r: 4,
+                fill: "#69f0ae",
+                stroke: "#005810",
+                strokeWidth: 2,
+              }}
             />
           </AreaChart>
         </ResponsiveContainer>

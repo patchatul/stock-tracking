@@ -22,7 +22,7 @@ export default function Home() {
   }, [showAddStock]);
 
   return (
-    <div className="flex flex-col flex-1 h-screen w-screen overflow-hidden  items-center justify-center">
+    <div className="flex flex-col flex-1 h-screen w-screen overflow-hidden">
       <header className="flex items-center justify-between shrink-0 px-10 py-4  z-20 border-b border-dark-green/50 w-full ">
         <div className="flex items-center gap-2">
           <div className="w-8 h-8 rounded-lg bg-dark-green flex items-center justify-center">
@@ -50,7 +50,7 @@ export default function Home() {
             </p>
           </div>
           <div className="text-right hidden sm:block">
-            {/* <div className={`text-right hidden sm:block }> ${isGain ? "text-[#69f0ae]" : "text-[#ff6b6b]"}` */}
+            {/* <div className={`text-right hidden sm:block }> ${isGain ? "text-light-green" : "text-red"}` */}
             <p className="text-[10px] uppercase tracking-widest opacity-70">
               All-time P&L{" "}
             </p>

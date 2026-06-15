@@ -1,7 +1,21 @@
-'use client';
+"use client";
 import { useState } from "react";
-import {ChevronLeft, ChevronRight, Plus, SlidersHorizontal, TrendingUp, TrendingDown} from "lucide-react";
-import {sortStocks, calcGainLoss, calcInvestment, type Stock, type SortOption, calcTotalValue,} from "@/database/stockData";
+import {
+  ChevronLeft,
+  ChevronRight,
+  Plus,
+  SlidersHorizontal,
+  TrendingUp,
+  TrendingDown,
+} from "lucide-react";
+import {
+  sortStocks,
+  calcGainLoss,
+  calcInvestment,
+  type Stock,
+  type SortOption,
+  calcTotalValue,
+} from "@/database/stockData";
 
 const SORT_OPTIONS: { label: string; value: SortOption }[] = [
   { label: "Top Gainer", value: "top-gainer" },
@@ -20,7 +34,7 @@ const SORT_OPTIONS: { label: string; value: SortOption }[] = [
 const TAG_COLORS: Record<string, string> = {
   Hold: "bg-[#4682B7] text-[#BFE9FF]",
   Buy: "bg-[#003D0A] text-[#69F0AE]",
-  Sell: "bg-[#3D0000] text-[#FF6B6B]",
+  Sell: "bg-[#3D0000] text-red",
 };
 
 function StockRow({ stock, onClick }: { stock: Stock; onClick: () => void }) {
@@ -33,26 +47,40 @@ function StockRow({ stock, onClick }: { stock: Stock; onClick: () => void }) {
       onClick={onClick}
       className="border-b border-medium-green/30 px-3 py-3 hover:bg-dark-green/30 active:bg-medium-green/50 transition-colors cursor-pointer"
     >
-        
       {/*1st row*/}
       <div className="flex items-center justify-between gap-1 mb-1">
         <div className="flex items-center gap-2">
-          <span className="text-white font-bold text-sm tracking-wider">{stock.ticker}</span>
-          <span className={`text-[10px] px-1.5 rounded ${TAG_COLORS[stock.tag]}`}>{stock.tag}</span>
+          <span className="text-white font-bold text-sm tracking-wider">
+            {stock.ticker}
+          </span>
+          <span
+            className={`text-[10px] px-1.5 rounded ${TAG_COLORS[stock.tag]}`}
+          >
+            {stock.tag}
+          </span>
         </div>
-        <span className="text-white text-xs font-semibold">Total ${totalValue.toFixed(2)}</span>
+        <span className="text-white text-xs font-semibold">
+          Total ${totalValue.toFixed(2)}
+        </span>
       </div>
       {/*2nd row*/}
       <div className="flex items-center justify-between text-[11px]">
-        <span className="text-gray-400 font-medium">Cur ${stock.currentPrice.toFixed(2)}</span>
-        <span className="text-medium-green">Invested  ${invest.toFixed(2)}</span>
-      </div> 
+        <span className="text-gray-400 font-medium">
+          Cur ${stock.currentPrice.toFixed(2)}
+        </span>
+        <span className="text-medium-green">Invested ${invest.toFixed(2)}</span>
+      </div>
       {/*3rd row*/}
       <div className="flex items-center justify-between mt-1">
-        
-        <span className="text-gray-400 text-[11px]">Avg ${stock.avgPrice.toFixed(2)}</span>
-        <span className="text-medium-green text-[11px] ">Shares {stock.sharesOwned.toFixed(2)}</span>
-        <span className={`text-[11px] font-semibold flex items-center gap-0.5 ${isGain ? "text-light-green" : "text-red"}`}>
+        <span className="text-gray-400 text-[11px]">
+          Avg ${stock.avgPrice.toFixed(2)}
+        </span>
+        <span className="text-medium-green text-[11px] ">
+          Shares {stock.sharesOwned.toFixed(2)}
+        </span>
+        <span
+          className={`text-[11px] font-semibold flex items-center gap-0.5 ${isGain ? "text-light-green" : "text-red"}`}
+        >
           {isGain ? <TrendingUp size={10} /> : <TrendingDown size={10} />}
           {isGain ? "+" : ""}${gainLoss.toFixed(2)}
         </span>
@@ -69,12 +97,18 @@ interface Props {
   onSelectStock: (stock: Stock) => void;
 }
 
-export default function Sidebar({ collapsed, onToggle, stocks = [], onAddStock, onSelectStock }: Props) {
+export default function Sidebar({
+  collapsed,
+  onToggle,
+  stocks = [],
+  onAddStock,
+  onSelectStock,
+}: Props) {
   const [sort, setSort] = useState<SortOption>("top-gainer");
   const [showSortMenu, setShowSortMenu] = useState(false);
   const sorted = sortStocks(stocks, sort);
-  
-    return (
+
+  return (
     <div
       className="relative shrink-0 flex"
       style={{ width: collapsed ? 16 : 260, transition: "width 0.3s" }}
@@ -92,7 +126,7 @@ export default function Sidebar({ collapsed, onToggle, stocks = [], onAddStock, 
           <div className="flex items-center gap-1">
             <div className="relative">
               <button
-              onClick={() => setShowSortMenu(!showSortMenu)}
+                onClick={() => setShowSortMenu(!showSortMenu)}
                 className="p-1.5 rounded hover:bg-dark-green/50 text-medium-green transition-colors"
                 title="Sort & Filter"
               >
@@ -133,10 +167,14 @@ export default function Sidebar({ collapsed, onToggle, stocks = [], onAddStock, 
           </span>
         </div>
 
-         {/* Stock list */}
-        <div className="flex-1 overflow-y-auto scrollbar-hide">
+        {/* Stock list */}
+        <div className="flex-1 overflow-y-auto overflow-x-hidden scrollbar-hide">
           {sorted.map((stock) => (
-            <StockRow key={stock.id} stock={stock} onClick={() => onSelectStock(stock)} />
+            <StockRow
+              key={stock.id}
+              stock={stock}
+              onClick={() => onSelectStock(stock)}
+            />
           ))}
         </div>
       </div>
